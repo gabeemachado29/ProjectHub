@@ -24,8 +24,10 @@ class ProjectController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(Request $request, Project $project)
     {
+        $this->authorize('addMember', $project);
+
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
@@ -34,7 +36,7 @@ class ProjectController extends Controller
         Project::create([
             'title' => $request->title,
             'description' => $request->description,
-            'created_by' => Auth::id()
+            'created_by' => $request->user()->projectsCreated()->create($request->validated()),
         ]);
 
         return redirect()->route('projects.index')->with('success', 'Projeto criado!');

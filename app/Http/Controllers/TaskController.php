@@ -23,6 +23,9 @@ class TaskController extends Controller
 
     public function store(Request $request)
     {
+        $project = Project::findOrFail($request->project_id);
+        $this->authorize('create', [Task::class, $project]);
+
         $request->validate([
             'title' => 'required|string',
             'description' => 'required',
