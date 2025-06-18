@@ -27,5 +27,9 @@ class DashboardController extends Controller
             'projects' => $projects,
             'tasks' => $tasks,
         ]);
+
+        $projects = $user->teamProjects()->withCount('tasks')->with('creator')->latest()->get()->merge(
+            $user->projectsCreated()->withCount('tasks')->with('creator')->latest()->get()
+        )->unique('id');
     }
 }

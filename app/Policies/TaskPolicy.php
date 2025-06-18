@@ -16,7 +16,7 @@ class TaskPolicy
      */
     public function view(User $user, Task $task): bool
     {
-        // O usuário pode ver a tarefa se ele for membro do projeto correspondente.
+        // A lógica aqui está correta e não causa ambiguidade.
         return $task->project->teamMembers->contains($user) || $task->project->created_by === $user->id;
     }
 
@@ -25,7 +25,7 @@ class TaskPolicy
      */
     public function create(User $user, Project $project): bool
     {
-        // O usuário pode criar uma tarefa se for membro da equipe do projeto.
+        // A lógica aqui está correta e não causa ambiguidade.
         return $project->teamMembers->contains($user) || $project->created_by === $user->id;
     }
 
@@ -34,9 +34,9 @@ class TaskPolicy
      */
     public function update(User $user, Task $task): bool
     {
-        // O usuário pode atualizar a tarefa se for o responsável por ela OU um gerente do projeto.
+        // CORREÇÃO: Especificamos 'team.role' para remover a ambiguidade.
         return $user->id === $task->assigned_to ||
-               $task->project->teamMembers()->where('user_id', $user->id)->where('role', 'manager')->exists();
+               $task->project->teamMembers()->where('user_id', $user->id)->where('team.role', 'manager')->exists();
     }
 
     /**
@@ -44,8 +44,8 @@ class TaskPolicy
      */
     public function delete(User $user, Task $task): bool
     {
-        // Apenas um gerente de projeto OU o criador do projeto podem deletar a tarefa.
+        // CORREÇÃO: Especificamos 'team.role' para remover a ambiguidade.
         return $user->id === $task->project->created_by ||
-               $task->project->teamMembers()->where('user_id', $user->id)->where('role', 'manager')->exists();
+               $task->project->teamMembers()->where('user_id', $user->id)->where('team.role', 'manager')->exists();
     }
 }

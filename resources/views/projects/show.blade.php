@@ -16,9 +16,15 @@
     </div>
 
     <div class="card">
-        <div class="card-header">
+        <div class="card-header d-flex justify-content-between align-items-center">
             <h5 class="mb-0">Tarefas do Projeto</h5>
+            @can('create', [App\Models\Task::class, $project])
+                <a href="{{ route('tasks.create', ['project_id' => $project->id]) }}" class="btn btn-primary btn-sm">
+                    + Nova Tarefa
+                </a>
+            @endcan
         </div>
+        
         <ul class="list-group list-group-flush">
             @forelse ($project->tasks as $task)
                 <li class="list-group-item d-flex justify-content-between align-items-center">

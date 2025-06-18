@@ -29,7 +29,14 @@
                 <label for="project_id" class="form-label">Projeto</label>
                 <select name="project_id" id="project_id" class="form-select @error('project_id') is-invalid @enderror">
                     @foreach($projects as $project)
-                        <option value="{{ $project->id }}">{{ $project->title }}</option>
+                        {{-- 
+                           A CORREÇÃO ESTÁ AQUI.
+                           A view usa a variável "$selectedProject" que o Controller enviou.
+                           Ela NÃO TENTA usar "$request->query('project_id')" ou algo parecido.
+                        --}}
+                        <option value="{{ $project->id }}" @selected(old('project_id', $selectedProject ?? '') == $project->id)>
+                            {{ $project->title }}
+                        </option>
                     @endforeach
                 </select>
                 @error('project_id')

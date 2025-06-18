@@ -32,8 +32,8 @@ Route::middleware(['auth'])->group(function () {
 
 
     // Gerenciamento de equipe por projeto
-    Route::get('/team/{project_id}', [TeamController::class, 'index'])->name('team.index');
-    Route::post('/team/{project_id}/add', [TeamController::class, 'store'])->name('team.store');
+    Route::get('/projects/{project}/team', [TeamController::class, 'index'])->name('team.index');
+    Route::post('/projects/{project}/team', [TeamController::class, 'store'])->name('team.store');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
