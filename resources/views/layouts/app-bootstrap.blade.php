@@ -25,6 +25,9 @@
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">Dashboard</a>
                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('projects.index') ? 'active' : '' }}" href="{{ route('projects.index') }}">Projetos</a>
+                    </li>
                 </ul>
 
                 <ul class="navbar-nav ms-auto">
@@ -57,6 +60,19 @@
     @endif
 
     <main class="container py-4">
+        {{-- Bloco de Alertas de Sessão --}}
+        @if (session('success'))
+            <div class="alert alert-success" role="alert">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger" role="alert">
+                {{ session('error') }}
+            </div>
+        @endif
+        {{-- Fim do Bloco de Alertas --}}
+
         @yield('content')
     </main>
 
