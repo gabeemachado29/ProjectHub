@@ -18,6 +18,7 @@ return new class extends Migration
         $table->enum('status', ['pending', 'in_progress', 'completed'])->default('pending');
         $table->foreignId('project_id')->constrained('projects');
         $table->foreignId('assigned_to')->constrained('users');
+        $table->timestamp('due_date')->nullable(); 
         $table->timestamps();
         $table->softDeletes();
     });

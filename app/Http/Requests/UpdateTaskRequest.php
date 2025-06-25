@@ -25,6 +25,7 @@ class UpdateTaskRequest extends FormRequest
             'description' => 'required|string',
             'status' => 'required|in:pending,in_progress,completed',
             'assigned_to' => 'required|exists:users,id',
+            'due_date' => 'nullable|date',
         ];
     }
 }

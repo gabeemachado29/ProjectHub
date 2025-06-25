@@ -21,11 +21,15 @@
                 $statusClass = [
                     'pending' => 'warning',
                     'in_progress' => 'info',
-                    'completed' => 'success'
+                    'completed' => 'success',
+                    'expired' => 'danger'
                 ][$task->status] ?? 'secondary';
             @endphp
             <span class="badge bg-{{$statusClass}} fs-6">{{ str_replace('_', ' ', $task->status) }}</span>
         </li>
+        @if($task->due_date)
+        <li class="list-group-item"><strong>Data de Entrega:</strong> {{ $task->due_date->format('d/m/Y') }}</li>
+        @endif
         <li class="list-group-item"><strong>Projeto:</strong> <a href="{{ route('projects.show', $task->project) }}">{{ $task->project->title }}</a></li>
         <li class="list-group-item"><strong>Responsável:</strong> {{ $task->assignedUser->name }}</li>
     </ul>

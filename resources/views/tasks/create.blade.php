@@ -55,6 +55,14 @@
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
+
+            <div class="mb-3">
+                <label for="due_date" class="form-label">Data de Entrega</label>
+                <input type="date" name="due_date" id="due_date" class="form-control @error('due_date') is-invalid @enderror" value="{{ old('due_date') }}">
+                @error('due_date')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
             
             <button type="submit" class="btn btn-primary">Criar Tarefa</button>
         </form>

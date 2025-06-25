@@ -15,7 +15,13 @@ class Task extends Model
         'description',
         'status',
         'project_id',
-        'assigned_to'
+        'assigned_to',
+        'due_date' // Adicionado
+    ];
+
+    // Adicione este bloco para tratar o campo como data
+    protected $casts = [
+        'due_date' => 'datetime',
     ];
 
     // Relacionamentos
