@@ -23,6 +23,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('projects', ProjectController::class);
 
     // CRUD de tarefas
+    Route::post('/tasks/{task}/complete', [TaskController::class, 'complete'])->name('tasks.complete');
     Route::resource('tasks', TaskController::class);
 
     // Apenas o método store para comentários (comentários são adicionados dentro de tarefas)

@@ -31,6 +31,27 @@
     </ul>
 </div>
 
+@if ($task->status !== 'completed' && Auth::id() === $task->assigned_to)
+<div class="card mb-4 border-success">
+    <div class="card-header bg-success text-white">
+        <h5 class="mb-0"><i class="bi bi-check-circle-fill me-2"></i>Concluir Tarefa</h5>
+    </div>
+    <div class="card-body">
+        <form method="POST" action="{{ route('tasks.complete', $task) }}">
+            @csrf
+            <div class="mb-3">
+                <label for="comment" class="form-label"><strong>Comentário de Conclusão</strong></label>
+                <textarea name="comment" id="comment" class="form-control @error('comment') is-invalid @enderror" rows="3" required placeholder="Descreva o que foi feito para concluir esta tarefa..."></textarea>
+                @error('comment')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+            <button type="submit" class="btn btn-success w-100"><i class="bi bi-check-lg me-1"></i>Marcar como Concluída</button>
+        </form>
+    </div>
+</div>
+@endif
+
 <div class="card">
     <div class="card-header">
         <h5 class="mb-0"><i class="bi bi-chat-dots-fill me-2"></i>Comentários</h5>

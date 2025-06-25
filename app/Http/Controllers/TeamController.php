@@ -15,8 +15,8 @@ class TeamController extends Controller
 
         // Carrega os usuários que ainda não estão na equipe para popular o dropdown
         $users = User::whereNotIn('id', $project->teamMembers()->pluck('users.id'))
-                     ->where('id', '!=', $project->created_by)
-                     ->get();
+                 ->where('id', '!=', $project->created_by)
+                 ->get();
 
         return view('teams.index', compact('project', 'users'));
     }

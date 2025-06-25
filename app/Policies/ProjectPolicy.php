@@ -44,7 +44,8 @@ class ProjectPolicy
     public function update(User $user, Project $project): bool
     {
         // O usuário pode atualizar se for o criador ou um gerente ('manager') do projeto.
-        return $user->id === $project->created_by || $project->teamMembers()->where('user_id', $user->id)->where('role', 'manager')->exists();
+        // CORREÇÃO: Especificamos 'team.role' para remover a ambiguidade.
+        return $user->id === $project->created_by || $project->teamMembers()->where('user_id', $user->id)->where('team.role', 'manager')->exists();
     }
 
     /**
