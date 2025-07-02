@@ -16,15 +16,14 @@ class Task extends Model
         'status',
         'project_id',
         'assigned_to',
-        'due_date' // Adicionado
+        'due_date'
     ];
 
-    // Adicione este bloco para tratar o campo como data
     protected $casts = [
         'due_date' => 'datetime',
     ];
 
-    // Relacionamentos
+    // ... (relacionamentos existentes) ...
     public function project()
     {
         return $this->belongsTo(Project::class);
@@ -38,5 +37,13 @@ class Task extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    /**
+     * Obtém todos os arquivos associados à tarefa.
+     */
+    public function files()
+    {
+        return $this->hasMany(File::class);
     }
 }

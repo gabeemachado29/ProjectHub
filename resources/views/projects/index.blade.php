@@ -22,7 +22,8 @@
                         <div class="d-flex gap-2">
                             <a href="{{ route('team.index', $project) }}" class="btn btn-outline-secondary btn-sm"><i class="bi bi-people-fill me-1"></i>Equipe</a>
                             @can('update', $project)
-                                <a href="#" class="btn btn-secondary btn-sm"><i class="bi bi-pencil-fill me-1"></i>Editar</a>
+                                {{-- Link de edição corrigido --}}
+                                <a href="{{ route('projects.edit', $project) }}" class="btn btn-secondary btn-sm"><i class="bi bi-pencil-fill me-1"></i>Editar</a>
                             @endcan
                         </div>
                     </li>

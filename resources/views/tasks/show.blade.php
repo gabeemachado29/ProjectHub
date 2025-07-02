@@ -35,6 +35,52 @@
     </ul>
 </div>
 
+{{-- SEÇÃO DE ARQUIVOS ANEXADOS --}}
+<div class="card mb-4">
+    <div class="card-header">
+        <h5 class="mb-0"><i class="bi bi-paperclip me-2"></i>Anexos</h5>
+    </div>
+    <div class="card-body">
+        {{-- Formulário de Upload --}}
+        @can('update', $task)
+        <form action="{{ route('files.store', $task) }}" method="POST" enctype="multipart/form-data" class="mb-3">
+            @csrf
+            <div class="input-group">
+                <input type="file" name="file" class="form-control @error('file') is-invalid @enderror" required>
+                <button class="btn btn-outline-secondary" type="submit">Enviar Arquivo</button>
+            </div>
+             @error('file')
+                <div class="text-danger small mt-1">{{ $message }}</div>
+            @enderror
+        </form>
+        <hr>
+        @endcan
+
+        {{-- Lista de Arquivos --}}
+        <ul class="list-group list-group-flush">
+            @forelse ($task->files as $file)
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <i class="bi bi-file-earmark me-2"></i>
+                        <a href="{{ route('files.download', $file) }}">{{ $file->original_name }}</a>
+                        <small class="text-muted ms-2">({{ round($file->size / 1024, 2) }} KB)</small>
+                    </div>
+                    @can('update', $task)
+                    <form action="{{ route('files.destroy', $file) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja remover este arquivo?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-outline-danger btn-sm">&times;</button>
+                    </form>
+                    @endcan
+                </li>
+            @empty
+                <li class="list-group-item text-muted">Nenhum arquivo anexado.</li>
+            @endforelse
+        </ul>
+    </div>
+</div>
+
+{{-- SEÇÃO PARA CONCLUIR TAREFA --}}
 @if ($task->status !== 'completed' && Auth::id() === $task->assigned_to)
 <div class="card mb-4 border-success">
     <div class="card-header bg-success text-white">
@@ -56,6 +102,7 @@
 </div>
 @endif
 
+{{-- SEÇÃO DE COMENTÁRIOS --}}
 <div class="card">
     <div class="card-header">
         <h5 class="mb-0"><i class="bi bi-chat-dots-fill me-2"></i>Comentários</h5>
@@ -76,6 +123,8 @@
 
         <hr>
 
+        {{-- Adicionar Comentário --}}
+        @can('update', $task)
         <form method="POST" action="{{ route('comments.store', ['task' => $task->id]) }}">
             @csrf
             <div class="mb-3">
@@ -87,6 +136,7 @@
             </div>
             <button type="submit" class="btn btn-primary"><i class="bi bi-send-fill me-1"></i>Comentar</button>
         </form>
+        @endcan
     </div>
 </div>
 @endsection
